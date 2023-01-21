@@ -8,23 +8,20 @@ export default class Navbar extends Component {
       <div>
         <nav className={`navbar navbar-expand-lg ${mode === 'light' ? 'light' : 'dark'}`}>
           <div className="container-fluid">
-            <span className="navbar-brand " style={{ color: mode === 'light' ? '#212529' : 'white' }} >NewsMonkey</span>
+            <span className="navbar-brand " style={{ color: mode === 'light' ? '#212529' : 'white' }} >NEWSMONKEY</span>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"  >
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0" >
-                <li className="nav-item" >
-                  <Link className="nav-link active" aria-current="page" to="/Home" style={{ color: mode === 'light' ? '#212529' : 'white' }}>Home</Link>
-                </li>
                 <li className="nav-item dropdown">
                   <Link className="nav-link " to="/Entertainment" role="button" aria-expanded="false" style={{ color: mode === 'light' ? '#212529' : 'white' }}>
                     Entertainment
                   </Link>
                 </li>
                 <li className="nav-item dropdown">
-                  <Link className="nav-link " to="/General" role="button" aria-expanded="false" style={{ color: mode === 'light' ? '#212529' : 'white' }}>
-                    General
+                  <Link className="nav-link " to="/Business" role="button" aria-expanded="false" style={{ color: mode === 'light' ? '#212529' : 'white' }}>
+                    Business
                   </Link>
                 </li>
                 <li className="nav-item dropdown">
@@ -47,8 +44,16 @@ export default class Navbar extends Component {
                     Techonology
                   </Link>
                 </li>
+                <li className='nav-item dropdown mx-md-5'>
+                  <div className='d-flex '>
+                    <Link to="/hindi" className='nav-link' style={{ color: mode === 'light' ? '#212529' : 'white' }}>हिंदी</Link>
+                    <strong className='mt-2' style={{ color: mode === 'light' ? '#212529' : 'white' }}> / </strong>
+                    <Link to="/english" className='nav-link' style={{ color: mode === 'light' ? '#212529' : 'white' }}>English</Link>
+                  </div>
+                </li>
               </ul>
-              <div className="form-check form-switch mx-md-5">
+
+              <div className="form-check form-switch mx-md-4">
                 <input onClick={toggleMode} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
                 <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: mode === 'light' ? '#212529' : 'white' }}>{mode} Mode</label>
               </div>

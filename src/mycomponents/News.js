@@ -2,80 +2,102 @@ import React, { Component } from 'react'
 import NewsItem from "./NewsItem";
 import Spinner from './spinner.js'
 import PropTypes from 'prop-types'
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export class News extends Component {
 
     static defaultProps = {
-        country: 'in',
-        pageSize: 20,
+        country: 'us',
+        pageSize: 12,
         category: 'top',
+        language: 'en'
     }
 
     static propTypes = {
         country: PropTypes.string,
-        pageSize: PropTypes.string,
-        category: PropTypes.string
+        pageSize: PropTypes.number,
+        category: PropTypes.string,
+        language: PropTypes.string
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            page: 'page',
+            page: '1',
             results: [],
-            loading: false
+            loading: true,
+            totalResults: 0,
         }
+        document.title = `${this.capitalize(this.props.category)}-'NEWS'`;
+    }
+
+    capitalize = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     updateNews = async () => {
-        const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&country=${this.props.country}&category=${this.props.category}`;
-        // https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9da7c88258f74cad8b8e32dc48a15d7c&page=${this.state.page}&pagesize=${this.props.pageSize}
+        const url = `https://newsdata.io/api/1/news?apikey=pub_158846a25499483f1be6fa5697f33091b71c9country=${this.props.country}&category=${this.props.category}`;
         this.setState({ loading: true })
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({ results: parsedData.results, totalResults: parsedData.totalResults, loading: false })
+
     }
 
     async componentDidMount() {
         this.updateNews();
     }
 
-    handleNext = async () => {
+    fetchMoreData = async () => {
+
+
         this.setState({
-            page: this.state.page + 1
+            page: this.state.page + 1,
         })
-        this.updateNews();
+        const url = `https://newsdata.io/api/1/news?apikey=pub_158846a25499483f1be6fa5697f33091b71c9country=${this.props.country}&category=${this.props.category}`;
 
-    }
+        let data = await fetch(url);
+        let parsedData = await data.json();
 
-    handlePrev = async () => {
-        this.setState({
-            page: this.state.page - 1,
-        })
-        this.updateNews();
+        setTimeout(() => {
+            this.setState({
+                results: this.state.results.concat(parsedData.results),
+                totalResults: parsedData.totalResults,
+            });
+        }, 1500);
 
-    }
+    };
+
 
     render() {
         let { mode } = this.props;
         return (
 
-            <div className='container my-3' style={{ backgroundColor: mode === 'light' ? 'white' : '#212529' }}>
-                <h1 className='text-center' style={{ color: mode === 'light' ? '#212529' : 'white' }} >NEWSMONKEY</h1>
+            <>
+                <h1 className='text-center' style={{ color: mode === 'light' ? '#212529' : 'white' }} >NEWSMONKEY-TOP HEADLINES</h1>
+                {this.state.loader && <spinner />}
                 {mode === 'light' && this.state.loading && <Spinner />}
-                <div className='row' style={{ backgroundColor: mode === 'light' ? 'white' : '#212529' }}>
-                    {!this.state.loading && this.state.results.map((element) => {
-                        return <div className=' my-3 col-md-3 ' style={{ backgroundColor: mode === 'light' ? 'white' : '#212529', color: mode === 'light' ? '#212529' : 'white' }} key={element.url} >
-                            <NewsItem title={element.title ? element.title : ''} description={element.description ? element.description : ' '} imageUrl={element.image_url ? element.image_url : 'https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg'} newsUrl={element.link} mode={mode} author={element.source_id ? element.source_id : 'Unknown'} date={element.pubDate} />
+                <InfiniteScroll
+                    dataLength={this.state.results.length}
+                    next={this.fetchMoreData}
+                    hasMore={this.state.results.length !== this.state.totalResults}
+                    loader={<h3>Loading....</h3>}
+                >
+                    <div className='container'>
+                        <div className='row' style={{ backgroundColor: mode === 'light' ? 'white' : '#212529' }}>
+                            {this.state.results.map((element) => {
+                                return <div className=' my-3 col-md-3 ' style={{ backgroundColor: mode === 'light' ? 'white' : '#212529', color: mode === 'light' ? '#212529' : 'white' }} key={element.url} >
+                                    <NewsItem title={element.title ? element.title : ''} description={element.description ? element.description : ' '} imageUrl={element.image_url ? element.image_url : 'https://thumbs.dreamstime.com/b/news-newspapers-folded-stacked-word-wooden-block-puzzle-dice-concept-newspaper-media-press-release-42301371.jpg'} newsUrl={element.link} mode={mode} author={element.sorce_id ? element.sorce_id : 'Unknown'} date={element.pubDate} />
+                                </div>
+                            })}
                         </div>
-                    })}
-                </div>
-                <div className='container d-flex justify-content-between'>
-                    <button disabled={this.state.page <= 1} type="button" className='btn btn-dark' onClick={this.handlePrev}>&larr; Previous</button>
-                    <button disabled={this.state.page + 1 > Math.ceil(this.state.totalResults / 20)} type="button" className='btn btn-dark' onClick={this.handleNext}> Next &rarr;</button>
-                </div>
-            </div>
+                    </div>
+                </InfiniteScroll>
+            </>
         )
     }
 }
 
 export default News
+
+

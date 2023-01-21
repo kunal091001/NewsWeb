@@ -39,13 +39,13 @@ export default class App extends Component {
 
         <Router>
           <NavBar mode={this.state.mode} toggleMode={this.toggleMode} />
-
           <Routes>
-            <Route exact path="" element={<News mode={this.state.mode} key='none' category='world' />} />
-            <Route exact path="/Home" element={<News mode={this.state.mode} key='home' category='top' />} />
+            <Route exact path="/hindi" element={<News mode={this.state.mode} key='hindi' language='hi' category='world' />} />
+            <Route exact path="/english" element={<News mode={this.state.mode} key='english' language='en' category='world' />} />
+            <Route exact path="" element={<News mode={this.state.mode} key='none' category='top' />} />
             <Route exact path="/Sports" element={<News mode={this.state.mode} key='sports' category='sports' />} />
             <Route exact path="/Entertainment" element={<News mode={this.state.mode} key='entertainment' category='entertainment' />} />
-            <Route exact path="/General" element={<News mode={this.state.mode} key='world' category='world' />} />
+            <Route exact path="/business" element={<News mode={this.state.mode} key='business' category='business' />} />
             <Route exact path="/Health" element={<News mode={this.state.mode} key='health' category='health' />} />
             <Route exact path="/Science" element={<News mode={this.state.mode} key='science' category='science' />} />
             <Route exact path="/Techonology" element={<News mode={this.state.mode} key='technology' category='technology' />} />
