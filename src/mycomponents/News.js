@@ -77,7 +77,7 @@ export class News extends Component {
         return (
 
             <>
-                <h1 className='text-center' style={{ color: mode === 'light' ? '#212529' : 'white' }} >NEWSMONKEY-TOP HEADLINES</h1>
+                <h1 className='text-center' style={{ color: mode === 'light' ? '#212529' : 'white' }} >NEWSMONKEY-TOP {this.props.category === 'top' ? '' : this.props.category.toUpperCase()} HEADLINES</h1>
                 {this.state.loader && <spinner />}
                 {mode === 'light' && this.state.loading && <Spinner />}
                 <InfiniteScroll

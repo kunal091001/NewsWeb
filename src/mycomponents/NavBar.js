@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 export default class Navbar extends Component {
+
   render() {
     let { mode, toggleMode } = this.props;
     return (
@@ -57,9 +58,9 @@ export default class Navbar extends Component {
                 <input onClick={toggleMode} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
                 <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: mode === 'light' ? '#212529' : 'white' }}>{mode} Mode</label>
               </div>
-              <form className="d-flex" role="search">
-                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                <button className="btn btn-outline-success" type="submit" style={{ color: mode === 'light' ? '#212529' : 'white' }}>Search</button>
+              <form className="d-flex" role="search" onSubmit={this.handleSubmit}>
+                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='searchbar' />
+                <button className="btn btn-outline-success" type="submit" style={{ color: mode === 'light' ? '#212529' : 'white' }}  >Search</button>
               </form>
             </div>
           </div>
