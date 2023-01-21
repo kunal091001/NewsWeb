@@ -7,10 +7,10 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 export class News extends Component {
 
     static defaultProps = {
-        country: 'us',
-        pageSize: 12,
+        country: 'in',
+        pageSize: 8,
         category: 'top',
-        language: 'en'
+        language: 'en',
     }
 
     static propTypes = {
@@ -36,12 +36,15 @@ export class News extends Component {
     }
 
     updateNews = async () => {
-        const url = `https://newsdata.io/api/1/news?apikey=pub_158846a25499483f1be6fa5697f33091b71c9country=${this.props.country}&category=${this.props.category}`;
+        this.props.setProgress(0);
+        const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&country=${this.props.country}&category=${this.props.category}&language=${this.props.language}`;
         this.setState({ loading: true })
         let data = await fetch(url);
+        this.props.setProgress(30);
         let parsedData = await data.json();
+        this.props.setProgress(70);
         this.setState({ results: parsedData.results, totalResults: parsedData.totalResults, loading: false })
-
+        this.props.setProgress(100);
     }
 
     async componentDidMount() {
@@ -54,7 +57,7 @@ export class News extends Component {
         this.setState({
             page: this.state.page + 1,
         })
-        const url = `https://newsdata.io/api/1/news?apikey=pub_158846a25499483f1be6fa5697f33091b71c9country=${this.props.country}&category=${this.props.category}`;
+        const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&country=${this.props.country}&category=${this.props.category}&language=${this.props.language}`;
 
         let data = await fetch(url);
         let parsedData = await data.json();
