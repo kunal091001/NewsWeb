@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 export default function NavBar(props) {
   let { mode, toggleMode } = props;
+
+
   return (
     <div>
-      <nav className={`navbar navbar-expand-lg`} style={{ backgroundColor: mode === 'light' ? 'white' : '#36454f', }}>
+      <nav className={`navbar navbar-expand-lg fixed-top`} style={{ backgroundColor: mode === 'light' ? 'white' : '#36454f', }}>
         <div className="container-fluid">
           <span className="navbar-brand " style={{ color: mode === 'light' ? '#152238' : 'white' }} >NEWSMONKEY</span>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"  >
@@ -55,9 +57,9 @@ export default function NavBar(props) {
               <input onClick={toggleMode} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" />
               <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: mode === 'light' ? '#152238' : 'white' }}>{mode} Mode</label>
             </div>
-            <form className="d-flex" role="search" >
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" name='searchbar' />
-              <button className="btn btn-outline-success" type="submit" style={{ color: mode === 'light' ? '#152238' : 'white' }}  >Search</button>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-outline-success" type="search" style={{ color: mode === 'light' ? '#152238' : 'white' }}   >Search</button>
             </form>
           </div>
         </div>

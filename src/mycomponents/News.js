@@ -8,8 +8,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function News(props) {
 
-    console.log(props);
-
     let { mode, makeProgress } = props;
 
     const [results, setResults] = useState([]);
@@ -63,7 +61,7 @@ export default function News(props) {
     return (
 
         <>
-            <h1 className='text-center mt-4' style={{ color: mode === 'light' ? '#152238' : 'white' }} >NEWSMONKEY-TOP {props.category === 'top' ? '' : props.category.toUpperCase()} HEADLINES</h1>
+            <h1 className='text-center mt-5 pt-4' style={{ color: mode === 'light' ? '#152238' : 'white' }} >NEWSMONKEY-TOP {props.category === 'top' ? '' : props.category.toUpperCase()} HEADLINES</h1>
             {loading && <Spinner />}
             <InfiniteScroll
                 dataLength={results.length}
@@ -88,16 +86,14 @@ export default function News(props) {
 
 News.defaultProps = {
     country: 'in',
-    pageSize: 8,
     category: 'top',
     language: 'en',
 }
 
 News.propTypes = {
     country: PropTypes.string,
-    pageSize: PropTypes.number,
     category: PropTypes.string,
-    language: PropTypes.string
+    language: PropTypes.string,
 }
 
 
