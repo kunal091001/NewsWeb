@@ -14,14 +14,22 @@ export default function NavBar(props) {
     val.setUserValue(event.target.value);
   }
 
+  function isPattern(userInput) {
+    return /^[a-z]/i.test(userInput);
+  }
+
+
+  const getFirstWord = (user) => {
+    const words = user.split(' ');
+    return words[0];
+  }
+
+  val.setUserValue(getFirstWord(val.userValue));
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(val.userValue);
-
-
-    function isPattern(userInput) {
-      return /^[a-z]/i.test(userInput);
-    }
 
     try {
       if (!isPattern(val.userValue)) {
@@ -34,7 +42,6 @@ export default function NavBar(props) {
         let parsedData = await data.json();
 
         val.setSearchValue(parsedData);
-        console.log(parsedData);
         navigate(`/query/${val.userValue}`);
       }
 
@@ -102,7 +109,7 @@ export default function NavBar(props) {
               <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>{val.mode} Mode</label>
             </div>
             <form className="d-flex" role="search" method='get' onSubmit={handleSubmit}>
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={handleChange} name='searchbar' required />
+              <input className="form-control me-2" type="search" placeholder="Search one word only" aria-label="Search" onChange={handleChange} name='searchbar' required />
               <button className="btn btn-outline-success" type="submit" role='search' style={{ color: val.mode === 'light' ? '#152238' : 'white' }}   >Search</button>
             </form>
           </div>
