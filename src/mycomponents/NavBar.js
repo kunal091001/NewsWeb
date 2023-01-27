@@ -1,29 +1,45 @@
-import React, { useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react'
+import { Link, Navigate } from 'react-router-dom';
 import NewsContext from '../contexts/NewsContext';
+import {
+  useNavigate
+} from 'react-router-dom';
+
 export default function NavBar(props) {
-
-
   const val = useContext(NewsContext);
 
-  let navigate = useNavigate();
-
-  const [userValue, setUserValue] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
-    setUserValue(event.target.value);
+    val.setUserValue(event.target.value);
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(userValue);
-    const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&q=${userValue}`
-    let data = await fetch(url);
+    console.log(val.userValue);
 
-    let parsedData = await data.json();
-    console.log(parsedData);
-    props.setSearchValue(parsedData.results);
-    navigate('/search');
+
+    try {
+      if (val.userValue.search('^[a-zA-Z0-9 !@#$%^&*)(]{2,20}$') <= 0) {
+        throw Error;
+      }
+      const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&q=${val.userValue}`
+      let data = await fetch(url);
+
+      let parsedData = await data.json();
+
+      val.setSearchValue(parsedData);
+      console.log(parsedData);
+      navigate(`/query/${val.userValue}`);
+
+    }
+    catch (error) {
+      console.log(error);
+      alert('Results Not Found');
+      alert('Redirecting To HOME Page')
+      navigate('/');
+
+    }
   }
 
   return (
@@ -80,7 +96,7 @@ export default function NavBar(props) {
               <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>{val.mode} Mode</label>
             </div>
             <form className="d-flex" role="search" method='get' onSubmit={handleSubmit}>
-              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={handleChange} name='searchbar' />
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={handleChange} name='searchbar' required />
               <button className="btn btn-outline-success" type="submit" role='search' style={{ color: val.mode === 'light' ? '#152238' : 'white' }}   >Search</button>
             </form>
           </div>

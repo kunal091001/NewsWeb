@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import NewsContext from '../contexts/NewsContext';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
-    useParams
+    useParams,
 } from 'react-router-dom';
 
 
@@ -16,8 +16,11 @@ export default function News(props) {
 
     const { paramCategory, paramLanguage } = useParams();
 
-
     const { mode } = useContext(NewsContext);
+    const { searchValue, setSearchValue } = useContext(NewsContext);
+
+    const { paramQuery } = useParams();
+
 
     let { makeProgress } = props;
 
@@ -26,7 +29,7 @@ export default function News(props) {
     const [loading, setLoading] = useState(true);
     const [totalResults, setTotalResults] = useState(0);
 
-    console.log(paramCategory);
+
 
     const capitalize = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -37,19 +40,31 @@ export default function News(props) {
 
 
     const updateNews = async (props) => {
-        makeProgress(10);
-        const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&country=${props?.country}&category=${paramCategory !== undefined ? paramCategory : paramLanguage !== undefined ? 'world' : 'top'}&language=${paramLanguage === undefined ? 'en' : paramLanguage}`;
-        setLoading(true);
-        makeProgress(30);
-        let data = await fetch(url);
-        makeProgress(50);
-        let parsedData = await data.json();
-        makeProgress(70);
-        setResults(parsedData.results);
-        setTotalResults(parsedData.totalResults);
-        makeProgress(100);
-        setLoading(false);
-        setPage(parsedData.nextPage);
+        if (paramQuery === undefined) {
+            makeProgress(10);
+            const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&country=${props?.country}&category=${paramCategory !== undefined ? paramCategory : paramLanguage !== undefined ? 'world' : 'top'}&language=${paramLanguage === undefined ? 'en' : paramLanguage}`;
+            setLoading(true);
+            makeProgress(30);
+            let data = await fetch(url);
+            makeProgress(50);
+            let parsedData = await data.json();
+            makeProgress(70);
+            setResults(parsedData.results);
+            setTotalResults(parsedData.totalResults);
+            makeProgress(100);
+            setLoading(false);
+            setPage(parsedData.nextPage);
+        }
+        else {
+            setLoading(true);
+            makeProgress(10);
+            setResults(searchValue.results);
+            makeProgress(50);
+            setTotalResults(searchValue.totalResults);
+            makeProgress(100);
+            setLoading(false);
+            setPage(searchValue.nextPage);
+        }
     }
 
 
@@ -62,22 +77,38 @@ export default function News(props) {
             updateNews(props);
 
         }
-    }, [paramCategory, paramLanguage])
+    }, [paramCategory, paramLanguage, paramQuery])
 
 
     const fetchMoreData = async () => {
-        setPage(page + 1)
-        const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&country=${props?.country}&category=${paramCategory !== undefined ? paramCategory : paramLanguage !== undefined ? 'world' : 'top'}&language=${paramLanguage === undefined ? 'en' : paramLanguage}&page=${page}`;
+        if (paramQuery === undefined) {
+            const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&country=${props?.country}&category=${paramCategory !== undefined ? paramCategory : paramLanguage !== undefined ? 'world' : 'top'}&language=${paramLanguage === undefined ? 'en' : paramLanguage}&page=${page}`;
 
-        let data = await fetch(url);
-        let parsedData = await data.json();
+            let data = await fetch(url);
+            let parsedData = await data.json();
 
-        setTimeout(() => {
-            setResults(results.concat(parsedData.results));
-            setTotalResults(parsedData.totalResults);
-        }, 1000);
+            setTimeout(() => {
+                setResults(results.concat(parsedData.results));
+                setTotalResults(parsedData.totalResults);
+            }, 1000);
 
-        setPage(parsedData.nextPage);
+            setPage(parsedData.nextPage);
+        }
+        else {
+
+            const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&language=en&q=${paramQuery}&page=${page}`;
+
+            let data = await fetch(url);
+            let parsedData = await data.json();
+
+
+            setTimeout(() => {
+                setResults(results.concat(parsedData.results));
+                setTotalResults(parsedData.totalResults);
+            }, 1000);
+
+            setPage(parsedData.nextPage);
+        }
     };
 
 

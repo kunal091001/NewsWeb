@@ -13,7 +13,7 @@ import LoadingBar from 'react-top-loading-bar'
 
 export default function App() {
 
-  const [searchValue, setSearchValue] = useState([]);
+
 
   const [progress, setProgress] = useState(5);
 
@@ -30,9 +30,9 @@ export default function App() {
           onLoaderFinished={() => setProgress(0)}
         />
         <Router>
-          <NavBar setSearchValue={setSearchValue} searchValue={searchValue} />
+          <NavBar />
           <Routes>
-            <Route exact path="/search" element={<News key='search' language='en' makeProgress={makeProgress} category='world' setSearchValue={setSearchValue} searchValue={searchValue} />} />
+            <Route exact path="query/:paramQuery" element={<News key='search' makeProgress={makeProgress} />} />
             <Route exact path="language/:paramLanguage" element={<News key='language' makeProgress={makeProgress} />} />
             <Route exact path="/" element={<News key='home' makeProgress={makeProgress} />} />
             <Route exact path="category/:paramCategory" element={<News key='categories' makeProgress={makeProgress} />} />
