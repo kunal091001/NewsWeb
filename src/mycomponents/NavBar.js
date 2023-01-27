@@ -19,18 +19,24 @@ export default function NavBar(props) {
     console.log(val.userValue);
 
 
+    function isPattern(userInput) {
+      return /^[a-z]/i.test(userInput);
+    }
+
     try {
-      if (val.userValue.search('^[a-zA-Z0-9 !@#$%^&*)(]{2,20}$') <= 0) {
+      if (!isPattern(val.userValue)) {
         throw Error;
       }
-      const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&q=${val.userValue}`
-      let data = await fetch(url);
+      else {
+        const url = `https://newsdata.io/api/1/news?apikey=pub_158551665451f8d544174c6d861ee63033841&q=${val.userValue}`
+        let data = await fetch(url);
 
-      let parsedData = await data.json();
+        let parsedData = await data.json();
 
-      val.setSearchValue(parsedData);
-      console.log(parsedData);
-      navigate(`/query/${val.userValue}`);
+        val.setSearchValue(parsedData);
+        console.log(parsedData);
+        navigate(`/query/${val.userValue}`);
+      }
 
     }
     catch (error) {

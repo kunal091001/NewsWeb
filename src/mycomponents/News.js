@@ -59,11 +59,12 @@ export default function News(props) {
             setLoading(true);
             makeProgress(10);
             setResults(searchValue.results);
-            makeProgress(50);
+            makeProgress(30);
             setTotalResults(searchValue.totalResults);
-            makeProgress(100);
+            makeProgress(70);
             setLoading(false);
             setPage(searchValue.nextPage);
+            makeProgress(100);
         }
     }
 
