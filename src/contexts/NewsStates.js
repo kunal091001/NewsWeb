@@ -14,11 +14,14 @@ const NewsStates = (props) => {
         }
     }
 
+
     const [searchValue, setSearchValue] = useState({});
     const [userValue, setUserValue] = useState('');
+    const [frontAnime, setFrontAnime] = useState(true);
+
 
     return (
-        <NewsContext.Provider value={{ mode, toggleMode, searchValue, setSearchValue, userValue, setUserValue }}>
+        <NewsContext.Provider value={{ mode, toggleMode, searchValue, setSearchValue, userValue, setUserValue, frontAnime, setFrontAnime }}>
             {props.children}
         </NewsContext.Provider>
     )
