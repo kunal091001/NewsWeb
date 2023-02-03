@@ -15,6 +15,7 @@ export default function SignUp() {
 
     const { userData, setUserData } = useContext(NewsContext);
 
+    const val = useContext(NewsContext);
     const navigate = useNavigate();
     const [submitButton, setSubmitButton] = useState(false);
 
@@ -78,30 +79,30 @@ export default function SignUp() {
                     </div>
                     <div className="col-md-1"></div>
                     <div className="col-md-5 ">
-                        <h3 className="text-center fw-bold">Welcome To NewsMonkey</h3>
-                        <h6 className="text-center fw-bold">Register Now To Get Latest News.</h6>
+                        <h3 className="text-center fw-bold " style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Welcome To NewsMonkey</h3>
+                        <h6 className="text-center fw-bold" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Register Now To Get Latest News.</h6>
                         <form onSubmit={handleSubmit}>
                             <div className="w-100 py-1 fw-semibold">
-                                <label htmlFor="firstName">First Name </label>
+                                <label htmlFor="firstName" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>First Name </label>
                                 <input type="text" className="form-control" placeholder="First name" id='firstName' onChange={handleChange} required />
                             </div>
                             <div className=" w-100 py-1 fw-semibold">
-                                <label htmlFor="lastName">Last Name</label>
+                                <label htmlFor="lastName" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Last Name</label>
                                 <input type="text" className="form-control" placeholder="Last name" id='lastName' onChange={handleChange} />
                             </div>
                             <div className=" w-100 py-1 fw-semibold">
-                                <label htmlFor="exampleFormControlInput1">Email Address</label>
+                                <label htmlFor="exampleFormControlInput1" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Email Address</label>
                                 <input type="email" className="form-control" id="email" placeholder="name@example.com" onChange={handleChange} required />
                             </div>
                             <div className=" w-100 py-1 fw-semibold">
-                                <label htmlFor="inputPassword">Password</label>
+                                <label htmlFor="inputPassword" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Password</label>
                                 <input type="password" className="form-control" id="password" placeholder="Password" onChange={handleChange} required />
                             </div>
-                            {errormsg && <p className="pt-2 w-100 fw-semibold text-danger " >
+                            {errormsg && <p className="pt-2 w-100 fw-semibold text-danger " style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>
                                 {errormsg}
                             </p>}
                             <div className="pt-2 pb-4 fw-semibold" >
-                                <button type="submit" className="btn btn-dark w-100" disabled={submitButton}>Sign Up</button>
+                                <button type="submit" className="btn btn-primary w-100 fw-bold" disabled={submitButton} style={{ color: 'white' }}>Sign Up</button>
                             </div>
                             <div className=" pb-4 fw-semibold ">
                                 <GoogleButton className='w-100' onClick={handleGoogleSignIn} />
@@ -109,8 +110,8 @@ export default function SignUp() {
 
 
                         </form>
-                        <p className="text-center fw-semibold">Already Have
-                            An Account ? <Link to="/login" style={{ color: 'black', textDecoration: 'none' }}>Log in</Link>
+                        <p className="text-center fw-semibold" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Already Have
+                            An Account ? <Link to="/login" style={{ color: val.mode === 'light' ? '#152238' : 'white', textDecoration: 'none' }}  >Log in</Link>
                         </p>
                     </div>
                 </div>

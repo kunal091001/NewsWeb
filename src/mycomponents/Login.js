@@ -12,6 +12,8 @@ import GoogleButton from 'react-google-button';
 
 export default function Login() {
 
+    const val = useContext(NewsContext);
+
     const { userData, setUserData } = useContext(NewsContext);
 
     const navigate = useNavigate();
@@ -66,29 +68,29 @@ export default function Login() {
                     </div>
                     <div className="col-md-1"></div>
                     <div className="col-md-5 ">
-                        <h3 className="text-center fw-bold">Welcome To NewsMonkey</h3>
-                        <h6 className="text-center fw-bold">Login Now To Get Latest News.</h6>
+                        <h3 className="text-center fw-bold" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Welcome To NewsMonkey</h3>
+                        <h6 className="text-center fw-bold" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Login Now To Get Latest News.</h6>
                         <form onSubmit={handleSubmit}>
                             <div className=" w-100 py-1 fw-semibold">
-                                <label htmlFor="exampleFormControlInput1">Email address</label>
+                                <label htmlFor="exampleFormControlInput1" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Email address</label>
                                 <input type="email" className="form-control" id="email" placeholder="name@example.com" onChange={handleChange} />
                             </div>
                             <div className=" w-100 py-1 fw-semibold">
-                                <label htmlFor="inputPassword">Password</label>
+                                <label htmlFor="inputPassword" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>Password</label>
                                 <input type="password" className="form-control" id="password" placeholder="Password" onChange={handleChange} />
                             </div>
-                            {errormsg && <p className="pt-2 w-100 fw-semibold text-danger " >
+                            {errormsg && <p className="pt-2 w-100 fw-semibold text-danger " style={{ color: val.mode === 'light' ? '#152238' : 'white' }} >
                                 {errormsg}
                             </p>}
                             <div className="py-4 fw-semibold" >
-                                <button type="submit" className="btn btn-dark w-100" disabled={submitButton}>Log In</button>
+                                <button type="submit" className="btn btn-primary w-100 fw-bold" disabled={submitButton} style={{ color: 'white' }}>Log In</button>
                             </div>
                             <div className=" pb-4 fw-semibold ">
                                 <GoogleButton className='w-100' onClick={handleGoogleSignIn} />
                             </div>
 
                         </form>
-                        <p className="text-center fw-semibold">New User ? <Link to="/signup" style={{ color: 'black', textDecoration: 'none' }}>Sign Up </Link></p></div>
+                        <p className="text-center fw-semibold" style={{ color: val.mode === 'light' ? '#152238' : 'white', textDecoration: 'none' }}>New User ? <Link to="/signup" style={{ color: val.mode === 'light' ? '#152238' : 'white', textDecoration: 'none' }}>Sign Up </Link></p></div>
                 </div>
 
             </div>

@@ -14,7 +14,7 @@ function Frontpage() {
         <>
             <div className='d-flex justify-content-center align-items-center mt-5'>
                 <Lottie animationData={LoginAnimation} loop={true}
-                />;
+                />
             </div>
 
         </>
