@@ -125,8 +125,8 @@ export default function NavBar(props) {
                 </div>
               </li>
             </ul>
-            <div className=" mx-md-4 fw-semibold px-2">
-              <div className='d-flex'>
+            <div className=" mx-md-4 fw-semibold p-2 p-md-0 ">
+              <div className='d-flex '>
                 <input type="checkbox" className="checkbox" id="checkbox" onChange={val.toggleMode} />
                 <label htmlFor="checkbox" className="label">
                   <i className="bx bx-sun icon"></i>
@@ -135,11 +135,11 @@ export default function NavBar(props) {
                 </label>
               </div>
             </div>
-            <form className="d-flex mt-2 mt-md-0" role="search" method='get' onSubmit={handleSubmit}>
+            <form className="d-flex  my-3 my-md-0" role="search" method='get' onSubmit={handleSubmit}>
               <input className="form-control me-2" type="search" placeholder="Search one word only" aria-label="Search" onChange={handleChange} name='searchbar' required />
               <button className="btn btn-outline-success fw-semibold" type="submit" role='search' style={{ color: val.mode === 'light' ? '#152238' : 'white' }}   >Search</button>
             </form>
-            <div className='dropdown px-md-5 ms-md-3'>
+            <div className='dropdown px-md-5 ms-md-3 my-3 my-md-0'>
               <span className=" dropdown-toggle fw-bold" role="button" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: val.mode === 'light' ? '#152238' : 'white' }}>
                 <i className="bx bx-user icon  "> User</i>
               </span>
