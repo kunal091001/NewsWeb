@@ -12,10 +12,23 @@ import LoadingBar from 'react-top-loading-bar'
 import SignUp from './mycomponents/Signup';
 import Login from './mycomponents/Login';
 import FrontPage from './mycomponents/Frontpage'
-
+import { useEffect } from 'react';
+import { auth } from './config/fire';
+import NewsContext from './contexts/NewsContext';
 
 export default function App() {
+  const parameter = useContext(NewsContext);
 
+
+
+  // useEffect(() => {
+  //   auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       setIsAuthenticated(true);
+  //     }
+  //     else setIsAuthenticated(false);
+  //   })
+  // }, []);
 
   const [progress, setProgress] = useState(5);
 
@@ -25,18 +38,7 @@ export default function App() {
 
   return (
     <>
-
-
-
-
       <NewsStates>
-
-
-        {/* <LoadingBar
-          color='#f11946'
-          progress={progress}
-          onLoaderFinished={() => setProgress(0)}
-        /> */}
         <Router>
           <Routes>
             <Route exact path="/" element={<FrontPage />} />

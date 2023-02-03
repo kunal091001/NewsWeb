@@ -1,16 +1,61 @@
-import React from 'react'
+import React, { useState, useContext } from 'react'
 import LoginAnimation from './animation'
 import {
-    Link
+    Link, useNavigate
 } from 'react-router-dom'
+import { auth, provider } from "../config/fire";
+import { signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import NewsContext from "../contexts/NewsContext";
+import GoogleButton from 'react-google-button';
+
+
+
 export default function Login() {
-    const handleSubmit = () => {
 
+    const { userData, setUserData } = useContext(NewsContext);
+
+    const navigate = useNavigate();
+    const [submitButton, setSubmitButton] = useState(false);
+
+    const [errormsg, setErrormsg] = useState('');
+    const [values, setValues] = useState({
+        email: '',
+        password: '',
     }
+    );
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (values.password.length < 8) {
+            return setErrormsg('Password Must Be Of 8 Characters !');
+        }
+        setErrormsg('');
+        setSubmitButton(true);
+        signInWithEmailAndPassword(auth, values.email, values.password).then(
+            async (res) => {
+                setSubmitButton(false);
+                setUserData({ email: res.user.email, firstName: res.user.displayName });
+                navigate('/home');
+
+            }
+        ).catch(error => {
+            setSubmitButton(false);
+            setErrormsg(error.message);
+        });
+    }
+
+    const handleGoogleSignIn = () => {
+        signInWithPopup(auth, provider).then((res) => {
+            setUserData({ email: res.user.email, firstName: res.user.displayName });
+            navigate('/home');
+        })
+    };
     const handleChange = (event) => {
-        const { name, value } = event.target;
-
-
+        const { id, value } = event.target;
+        setValues((prev) => {
+            return {
+                ...prev, [id]: value
+            }
+        })
     }
     return (
         <>
@@ -19,9 +64,10 @@ export default function Login() {
                     <div className="col-md-6 ">
                         <div className='mx-auto  w-100' ><LoginAnimation /></div>
                     </div>
-                    <div className="col-md-6 ">
+                    <div className="col-md-1"></div>
+                    <div className="col-md-5 ">
                         <h3 className="text-center fw-bold">Welcome To NewsMonkey</h3>
-                        <h6 className="text-center fw-bold">Login now to get latest news.</h6>
+                        <h6 className="text-center fw-bold">Login Now To Get Latest News.</h6>
                         <form onSubmit={handleSubmit}>
                             <div className=" w-100 py-1 fw-semibold">
                                 <label htmlFor="exampleFormControlInput1">Email address</label>
@@ -31,8 +77,14 @@ export default function Login() {
                                 <label htmlFor="inputPassword">Password</label>
                                 <input type="password" className="form-control" id="password" placeholder="Password" onChange={handleChange} />
                             </div>
+                            {errormsg && <p className="pt-2 w-100 fw-semibold text-danger " >
+                                {errormsg}
+                            </p>}
                             <div className="py-4 fw-semibold" >
-                                <button type="submit" className="btn btn-dark w-100">Sign Up</button>
+                                <button type="submit" className="btn btn-dark w-100" disabled={submitButton}>Log In</button>
+                            </div>
+                            <div className=" pb-4 fw-semibold ">
+                                <GoogleButton className='w-100' onClick={handleGoogleSignIn} />
                             </div>
 
                         </form>

@@ -22,27 +22,3 @@ function Frontpage() {
 }
 
 export default Frontpage
-
-
-// export default function frontpage() {
-//     const navigate = useNavigate()
-
-//     useEffect(() => {
-//         setTimeout(() => {
-//             navigate('/')
-//         }, 2000)
-//     }, [])
-//     return (
-//         <>
-//             <Lottie animationData={LoginAnimation} loop={true} />;
-//         </>
-//     )
-// }
-
-
-// const App = () => {
-//     <Lottie animationData={LoginAnimation} loop={true} />;
-// }
-
-
-// export default App;

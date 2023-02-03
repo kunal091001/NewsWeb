@@ -117,7 +117,7 @@ export default function News(props) {
 
         <>
 
-            <h1 className='text-center mt-5 pt-4' style={{ color: mode === 'light' ? '#152238' : 'white' }} >NEWSMONKEY-TOP {paramCategory === undefined ? '' : paramCategory.toUpperCase()} HEADLINES</h1>
+            <h1 className='text-center mt-5 pt-4 fw-bold' style={{ color: mode === 'light' ? '#152238' : 'white' }} >NEWSMONKEY-TOP {paramCategory === undefined ? '' : paramCategory.toUpperCase()} HEADLINES</h1>
             {loading && <Spinner />}
             <InfiniteScroll
                 dataLength={results.length}
