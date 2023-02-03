@@ -27,17 +27,17 @@ const NewsStates = (props) => {
         email: '',
     });
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
 
     useEffect(() => {
-        const subscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUserData(currentUser);
+        onAuthStateChanged(auth, (currentUser) => {
+            setUserData({ firstName: currentUser?.displayName, email: currentUser?.email });
         });
     }, [])
 
 
     return (
-        <NewsContext.Provider value={{ mode, toggleMode, searchValue, setSearchValue, userValue, setUserValue, userData, setUserData, isAuthenticated, setIsAuthenticated }}>
+        <NewsContext.Provider value={{ mode, toggleMode, searchValue, setSearchValue, userValue, setUserValue, userData, setUserData }}>
             {props.children}
         </NewsContext.Provider>
     )
